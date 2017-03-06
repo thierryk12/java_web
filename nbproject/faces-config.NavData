@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="login.xhtml" x="413" y="377" zoom="true"/>
+        <Node id="index.xhtml" x="404" y="80" zoom="true"/>
+        <Node id="manage_track.xhtml" x="673" y="369" zoom="true"/>
+        <Node id="profile.xhtml" x="180" y="219" zoom="true"/>
+        <Node id="register.xhtml" x="628" y="117" zoom="true"/>
+        <Node id="header.xhtml" x="739" y="269" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

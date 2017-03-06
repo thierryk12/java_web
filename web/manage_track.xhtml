@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      
+      
+      
+      >
+
+
+    <h:head>
+        <title>manage track</title>
+        <h:outputStylesheet name="css/styles.css" />
+        <script src="http://maps.googleapis.com/maps/api/js"></script>
+        
+                <!-- Bootstrap -->
+<link href="../css/bootstrap.css" rel="stylesheet" />
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </h:head>
+        <h:body onload="getLocation();return false;" style="background-color:#424868; color: white">
+        <center>
+        <div id="pageHeading">
+            <ui:insert name="heading">
+                <ui:include src="header.xhtml"/>
+
+            </ui:insert>     
+        </div> 
+            <h:outputText value="Sorry you have no track in our Service please add your tracks " rendered="#{trackController.getTrackCountByUser()==0}"/>
+            <h:form rendered="#{trackController.getTrackCountByUser()!=0}" >
+            
+            
+            
+            
+            
+            <table align="center" border="1" style="border-color:white; ">
+        <thead>
+            <tr style="border-color:white; ">
+                <th style="border-color:white; " colspan="4">The last tracks</th>
+            </tr>
+            <tr>
+                
+                <th style="border-color:white; " ><center>lat</center></th>
+                <th style="border-color:white; ">long</th>
+                <th style="border-color:white; ">speed</th>
+            </tr>
+        </thead>
+                <tbody>
+                    <!-- Firstly iterate other dates -->
+                    <ui:repeat value="#{trackController.tracks}" var="e" rendered="#{trackController.getTrackCountByUser()!=0}">
+       
+                        <tr style="border-color:white; ">
+                            <th style="border-color:white; " colspan="4" align="left">
+                                <h:outputText value="#{e.date}" >
+                                <f:convertDateTime type="date" pattern="yyyy-dd-MM"/>
+                                </h:outputText>
+                                <h:outputText value="#{e.time}" >
+                                
+                                </h:outputText>
+                            </th>
+                            
+                        </tr>
+                        <tr style="border-color:white; ">
+                            <th style="border-color:white; "><h:outputText value="#{e.longitude}" >
+                                  <f:convertNumber pattern="#00.00" />  
+                                </h:outputText></th>
+                            
+                            <th style="border-color:white; "><h:outputText value="#{e.latitude}" >
+                                   <f:convertNumber pattern="#00.00" />   
+                                </h:outputText></th>
+                            
+                            <th style="border-color:white; "><h:outputText value="#{e.speed}" >
+                                    
+                                </h:outputText></th>
+                        </tr>
+                        
+                        
+        </ui:repeat>
+                </tbody>
+        
+    </table>
+            </h:form>
+            
+
+
+        <h:form id="tracktable" >
+            
+            
+            
+             
+
+
+            <div id="googleMap" style="width:400px;height:300px;"></div>
+
+
+
+            <p id="demo">
+
+            </p>
+
+
+
+
+
+            <h:commandButton id="btn1" style="display:none" value="add track" action="#{trackController.addcurrenttrack()}"
+                             ></h:commandButton>
+            <h:inputText  style="display:none" id="latitude" value="#{trackController.latitude}"/>
+
+            <h:inputText  style="display:none" id="longitude" value="#{trackController.longitude}"/>
+        </h:form>
+
+        <script>
+                var x = document.getElementById("demo");
+
+                function getLocation() {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(showPosition);
+                    } else {
+                        x.innerHTML = "Geolocation is not supported by this browser.";
+                    }
+                }
+
+                function showPosition(position) {
+                    x.innerHTML = "Latitude: " + position.coords.latitude.toFixed(2) +
+                            "<br/>" + "Longitude: " + position.coords.longitude.toFixed(2);
+
+                    document.getElementById("tracktable:latitude").value = position.coords.latitude;
+                    document.getElementById("tracktable:longitude").value = position.coords.longitude;
+
+                    document.getElementById("tracktable:btn1").style.display = 'block';
+
+                    var myCenter = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+
+                    var mapProp = {
+                        center: myCenter,
+                        zoom: 15,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+
+                    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+                    var marker = new google.maps.Marker({
+                        position: myCenter,
+                    });
+
+                    marker.setMap(map);
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+        </script>
+
+</center>
+        
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+
+    </h:body>
+</html>
